@@ -22,7 +22,7 @@ class ShopMainViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var OrderNumberText: UILabel!
 
     @IBAction func CompleteOrderBtn(_ sender: Any) {
-      //  database().RiderTookTheOrderFromShop(OrderNumber: orders[selectedOrder].orderNumber)
+        database().RiderTookTheOrderFromShop(OrderNumber: orders[selectedOrder].orderNumber)
         self.AllOrdersTableView.reloadData()
         self.SingleItemTableView.reloadData()
 
@@ -66,11 +66,9 @@ class ShopMainViewController: UIViewController, UITableViewDelegate, UITableView
         
         database().AddOrderInfoToOrderClass(DispenserID: User_Id!){(Orders)in
 
-            print(Orders)
             //self.orders.removeAll()
            // CorrectOrders.removeFirst(Orders.count - self.orders.count)
             self.orders = Orders
-            print(self.orders)
             self.selectedOrder = 0
             self.SetInitialTexts()
 
@@ -80,6 +78,7 @@ class ShopMainViewController: UIViewController, UITableViewDelegate, UITableView
             self.SingleItemTableView.reloadData()
             
         }
+        
         
       
         
@@ -176,7 +175,22 @@ class ShopMainViewController: UIViewController, UITableViewDelegate, UITableView
             cell.OrderNumberText.text = orders[indexPath.item].orderNumber
 //            print(orders[indexPath.item].product.count)
             cell.NumberOfItemsText.text = "\(String(Int(orders[indexPath.item].numberOfItems))) Items"
-            cell.RiderNameText.text = "Waiting For Rider"
+            
+            
+            if orders[indexPath.item].status == 1{
+                cell.RiderNameText.textColor = .systemGreen
+                cell.RiderNameText.text = "Waiting For Rider"
+            }else if orders[indexPath.item].status == 2{
+                cell.RiderNameText.textColor = .blue
+                cell.RiderNameText.text = "Rider Arrived"
+            }else if orders[indexPath.item].status == 3{
+                cell.RiderNameText.textColor = .red
+                cell.RiderNameText.text = "Out For Delivery"
+                //orders.remove(at: indexPath.item)
+               // AllOrdersTableView.reloadData()
+               // SingleItemTableView.reloadData()
+            }
+            
             return cell
             
            }else if tableView == SingleItemTableView{

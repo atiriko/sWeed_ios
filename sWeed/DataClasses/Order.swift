@@ -16,14 +16,16 @@ class Order{
     var numberOfItems: Float
     var orderNumber: String
     var products: [Product]
+    var status: Int
     
     
-    init(DispenserId: String, CustomerId: String, RiderId: String, NumberOfItems: Float/* ProductName: String, ProductQuantity:Float, */,Price: Float, OrderNumber: String, Products: [Product]) {
+    init(DispenserId: String, CustomerId: String, RiderId: String, NumberOfItems: Float/* ProductName: String, ProductQuantity:Float, */,Price: Float, OrderNumber: String, Products: [Product], Status: Int) {
         dispenserId = DispenserId
         customerId = CustomerId
         riderId = RiderId
         numberOfItems = NumberOfItems
         products = Products
+        status = Status
         
         //productName = ProductName
         //productQuantity = ProductQuantity

@@ -24,8 +24,23 @@ public class database{
     let storageRef = Storage.storage().reference()
     
     
-    func DeleteProduct(ProductId:String){
-        ref.child("Dispensers").child(User_id).child("Products").child(ProductId).removeValue()
+    func DeleteProduct(ProductId:String, ImageUrl: String){
+//        print(User_id)
+//        print(ProductId)
+        ref.child("Dispensers").child(User_id).child("Stock").child(ProductId).removeValue()
+        
+        let storage = Storage.storage()
+        let storageRef = storage.reference(forURL: ImageUrl)
+
+        //Removes image from storage
+        storageRef.delete { error in
+            if let error = error {
+                print(error)
+            } else {
+                // File deleted successfully
+            }
+        }
+        
     }
      func UserExist() -> Bool{
         if Auth.auth().currentUser != nil{
@@ -89,6 +104,7 @@ public class database{
             var riderId: String!
             var price: Float!
             var orderNumber: String!
+            var status: Int!
             
             self.orders.removeAll()
             
@@ -102,19 +118,15 @@ public class database{
                 riderId = dict["RiderId"] as? String ?? "0"
                 price = dict["Price"] as? Float
                 orderNumber = dict["OrderNumber"] as? String
+                status = dict["Status"] as? Int
+                
                 
                                    
                                 
-                                let post = Order(DispenserId: dispenserId, CustomerId: customerId, RiderId: riderId, NumberOfItems: 0, Price: price, OrderNumber: orderNumber, Products: self.products)
-                                               
+                let post = Order(DispenserId: dispenserId, CustomerId: customerId, RiderId: riderId, NumberOfItems: 0, Price: price, OrderNumber: orderNumber, Products: self.products, Status: status)
                                                self.orders.append(post)
-                                  // self.orders[Int(order_child)].products[pIndex - 1].name = Products[pIndex-1].name
-                                  // self.orders[index - 1].products[pIndex - 1].numberOfItems = Products[pIndex-1].numberOfItems
-                                   
-                                  // self.ProductCounts.append(Products.count
                 
             }
-            print("Changed")
             if ShopMainViewController().SingleItemTableView != nil{
                 ShopMainViewController().orders = self.orders
             //    Orders(ShopMainViewController().orders)
@@ -302,6 +314,7 @@ public class database{
         
         storageRef.getData(maxSize: 1 * 1024 * 1024) { (data, error) -> Void in
             Image(UIImage(data: data!)!)
+            
         }
     }
     func CheckUserType(Type: @escaping (Int) -> Void){
@@ -337,27 +350,41 @@ public class database{
         
         
     }
-    func CreateStockForDipenser(dispenserId: String, name: String, price: String){
-        let itemId = System().RandomString(length: 8)
-        var url:String = ""
-        
-        uploadMedia(dispenserId: dispenserId, itemId: itemId){(completion) in
-            url = completion!
-            
-            let stockRef =  self.ref.child("Dispensers").child(dispenserId).child("Stock")
-            stockRef.child(itemId).child("Name").setValue(name)
-            stockRef.child(itemId).child("Price").setValue(price)
-            stockRef.child(itemId).child("Available").setValue(true)
-            stockRef.child(itemId).child("URL").setValue(url)
-            stockRef.child(itemId).child("id").setValue(itemId)
+//    func CreateStockForDipenser(dispenserId: String, name: String, price: String){
+//        let itemId = System().RandomString(length: 8)
+//        var url:String = ""
+//
+//        uploadMedia(dispenserId: dispenserId, itemId: itemId){(completion) in
+//            url = completion!
+//
+//            let stockRef =  self.ref.child("Dispensers").child(dispenserId).child("Stock")
+//            stockRef.child(itemId).child("Name").setValue(name)
+//            stockRef.child(itemId).child("Price").setValue(price)
+//            stockRef.child(itemId).child("Available").setValue(true)
+//            stockRef.child(itemId).child("URL").setValue(url)
+//            stockRef.child(itemId).child("id").setValue(itemId)
+//        }
+//
+//
+//    }
+    func EditStock(ItemId: String, Image: UIImage, Name: String, Price: String){
+        let stockRef =  self.ref.child("Dispensers").child(User_id).child("Stock").child(ItemId)
+        stockRef.removeValue()
+        UploadProductImage(dispenserId: User_id, itemId: ItemId, Image: Image){(Completion)in
+            stockRef.child("Name").setValue(Name)
+            stockRef.child("Price").setValue(Price)
+            stockRef.child("URL").setValue(Completion!)
+            stockRef.child("id").setValue(ItemId)
+            stockRef.child("Available").setValue(true)
+
         }
         
         
     }
-    func uploadMedia(dispenserId: String, itemId:String, completion: @escaping (_ url: String?) -> Void) {
+    func UploadProductImage(dispenserId: String, itemId:String,Image: UIImage , completion: @escaping (_ url: String?) -> Void) {
         
         let stockItemPhotoRef = Storage.storage().reference().child(dispenserId).child(itemId).child("image.png")
-        if let uploadData = UIImage(named: "BlueDream.png")!.jpegData(compressionQuality: 0.5) {
+        if let uploadData = Image.jpegData(compressionQuality: 0.5) {
             stockItemPhotoRef.putData(uploadData, metadata: nil) { (metadata, error) in
                 if error != nil {
                     print("error")

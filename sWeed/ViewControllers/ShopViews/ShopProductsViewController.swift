@@ -16,6 +16,14 @@ class ShopProductsViewController: UIViewController, UITableViewDelegate, UITable
     let imageCache = NSCache<AnyObject, AnyObject>()
    
 
+    @IBAction func AddItemBtn(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "LoggedInShop" , bundle: nil)
+                  let vc = storyboard.instantiateViewController(withIdentifier: "ProductEdit") as! ProductEditViewController
+                  vc.type = 2
+                  vc.modalPresentationStyle = .fullScreen
+                  self.present(vc,animated: true, completion: nil)
+        
+    }
     
     @IBAction func BackBtn(_ sender: Any) {
         System().ChangeViewFullScreen(storyboard: "LoggedInShop", viewName: "Main", view: self)
@@ -37,6 +45,7 @@ class ShopProductsViewController: UIViewController, UITableViewDelegate, UITable
             
             self.TableView.reloadData()
         }
+        TableView.reloadData()
 
         // Do any additional setup after loading the view.
     }
@@ -87,7 +96,7 @@ class ShopProductsViewController: UIViewController, UITableViewDelegate, UITable
             database().GetProductImageFromDatabse(DownloadUrl: self.stock[indexPath.item].ImageUrl){(Image)in
             let storyboard = UIStoryboard(name: "LoggedInShop" , bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "ProductEdit") as! ProductEditViewController
-            //vc.productId = self.stock[indexPath.item].Id
+            vc.productId = self.stock[indexPath.item].Id
             vc.productImage = Image
                 vc.productName = self.stock[indexPath.item].Name
                 vc.productPrice = self.stock[indexPath.item].Price
@@ -99,7 +108,13 @@ class ShopProductsViewController: UIViewController, UITableViewDelegate, UITable
         editAction.backgroundColor = .systemGreen
 
         let deleteAction = UITableViewRowAction(style: .normal, title: "Delete Item") { (rowAction, indexPath) in
-            database().DeleteProduct(ProductId: self.stock[indexPath.item].Id)
+            database().DeleteProduct(ProductId: self.stock[indexPath.item].Id, ImageUrl: self.stock[indexPath.item].ImageUrl)
+            
+            database().AddStockInfoToStockClass(DispenserID: self.User_Id!){(Stock)in
+                self.stock = Stock
+                
+                self.TableView.reloadData()
+            }
             //TODO: Delete the row at indexPath here
         }
         deleteAction.backgroundColor = .red
