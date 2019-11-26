@@ -51,6 +51,8 @@
 		FBDCEF9C23738FBC0027AF23 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB1567A236903FC003020F5 /* MapViewController.swift */; };
 		FBDCEF9F23738FCA0027AF23 /* StockListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB63134C236C54E600C80F3D /* StockListViewCell.swift */; };
 		FBDCEFA023738FCA0027AF23 /* StockListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB63134C236C54E600C80F3D /* StockListViewCell.swift */; };
+		FBDE71D4238B3CF6003894EB /* LoggedInRider.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBDE71D3238B3CF6003894EB /* LoggedInRider.storyboard */; };
+		FBDE71D7238B3D9F003894EB /* RiderMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDE71D6238B3D9F003894EB /* RiderMainViewController.swift */; };
 		FBFCECAC2375B34A004BB329 /* LoggedInUser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBB15678236903A6003020F5 /* LoggedInUser.storyboard */; };
 		FBFCECAD2375B34E004BB329 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB0D49A52367A5830004A4AD /* LaunchScreen.storyboard */; };
 		FBFCECAE2375B351004BB329 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB0D49A02367A5810004A4AD /* Main.storyboard */; };
@@ -133,6 +135,8 @@
 		FBC8CF9C2367BB2100250D4F /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		FBC8CFA023685FE400250D4F /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
 		FBC8CFAC2368712500250D4F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		FBDE71D3238B3CF6003894EB /* LoggedInRider.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LoggedInRider.storyboard; sourceTree = "<group>"; };
+		FBDE71D6238B3D9F003894EB /* RiderMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiderMainViewController.swift; sourceTree = "<group>"; };
 		FBFCECB5237630E6004BB329 /* SelectedProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedProductViewController.swift; sourceTree = "<group>"; };
 		FBFCECB7237703FD004BB329 /* BasketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketViewController.swift; sourceTree = "<group>"; };
 		FBFCECB923777FC9004BB329 /* BasketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketTableViewCell.swift; sourceTree = "<group>"; };
@@ -237,6 +241,7 @@
 				FB0D49A02367A5810004A4AD /* Main.storyboard */,
 				FBB15678236903A6003020F5 /* LoggedInUser.storyboard */,
 				FB00738D237EEFF100BE2AA7 /* LoggedInShop.storyboard */,
+				FBDE71D3238B3CF6003894EB /* LoggedInRider.storyboard */,
 				FB9EA23E2378EB21009F1E54 /* MapStyle.json */,
 				FBDCEF9723738F640027AF23 /* DataClasses */,
 				FBDCEF9523738F3F0027AF23 /* GeneralFunctions */,
@@ -297,9 +302,10 @@
 		FBDCEF9823738F920027AF23 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				FB943F96236A6D4800A24334 /* MapContainerViewController.swift */,
 				FBDCEFA123738FD50027AF23 /* BeforeLogin */,
 				FBDCEFA3237390FD0027AF23 /* LessUsed */,
-				FB943F96236A6D4800A24334 /* MapContainerViewController.swift */,
+				FBDE71D5238B3D5A003894EB /* RiderViews */,
 				FB007391237EF2A500BE2AA7 /* ShopViews */,
 				FBDCEFA22373900D0027AF23 /* CustomerViews */,
 			);
@@ -335,6 +341,14 @@
 				FBAE4E932387453600C494F7 /* DispenserProductsTableViewCell.swift */,
 			);
 			path = LessUsed;
+			sourceTree = "<group>";
+		};
+		FBDE71D5238B3D5A003894EB /* RiderViews */ = {
+			isa = PBXGroup;
+			children = (
+				FBDE71D6238B3D9F003894EB /* RiderMainViewController.swift */,
+			);
+			path = RiderViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -454,6 +468,7 @@
 				FBFCECAE2375B351004BB329 /* Main.storyboard in Resources */,
 				FBFCECAD2375B34E004BB329 /* LaunchScreen.storyboard in Resources */,
 				FB00738E237EEFF100BE2AA7 /* LoggedInShop.storyboard in Resources */,
+				FBDE71D4238B3CF6003894EB /* LoggedInRider.storyboard in Resources */,
 				FB00738C237EDAFC00BE2AA7 /* product_placeholder.png in Resources */,
 				FB943F932369D3FB00A24334 /* dispenser.png in Resources */,
 				FB9EA23F2378EB22009F1E54 /* MapStyle.json in Resources */,
@@ -635,6 +650,7 @@
 				FBAE4E98238751B900C494F7 /* ProductEditViewController.swift in Sources */,
 				FB0D499B2367A5810004A4AD /* AppDelegate.swift in Sources */,
 				FB943F97236A6D4800A24334 /* MapContainerViewController.swift in Sources */,
+				FBDE71D7238B3D9F003894EB /* RiderMainViewController.swift in Sources */,
 				FBB1567523689120003020F5 /* AccountInfoViewController.swift in Sources */,
 				FB007397237F050100BE2AA7 /* ShopMainViewController.swift in Sources */,
 				FBFCECBA23777FC9004BB329 /* BasketTableViewCell.swift in Sources */,

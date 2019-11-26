@@ -38,6 +38,25 @@ public class Account{
             }
         }
     }
+    func CreateRiderAccount(email:String, password:String, completion: @escaping (String) -> Void){
+          Auth.auth().createUser(withEmail: email, password: password) {user, error in
+              if error == nil && user != nil{
+                  self.userid = Auth.auth().currentUser!.uid
+                  self.ref.child("Users").child(self.userid).child("id").setValue(self.userid)
+                  self.ref.child("Users").child(self.userid).child("email").setValue(email)
+                  self.ref.child("Users").child(self.userid).child("pass").setValue(password)
+                  self.ref.child("Users").child(self.userid).child("type").setValue("Rider")
+                  
+                  completion("done")
+                  
+              }else{
+                  let result = error!.localizedDescription
+                  completion(result)
+                  
+                  
+              }
+          }
+      }
     func CreateShopAccount(name:String, location:String, email:String, password:String, completion: @escaping (String) -> Void){
            Auth.auth().createUser(withEmail: email, password: password) {user, error in
                if error == nil && user != nil{
@@ -59,6 +78,7 @@ public class Account{
            }
         
        }
+   
     func HandleLogin(email:String, password:String, completion: @escaping (String) -> Void){
         Auth.auth().signIn(withEmail: email, password: password){(user, error) in
             if error == nil{
@@ -88,6 +108,10 @@ public class Account{
 
             }
             if(Type == 3){
+                let storyboard = UIStoryboard(name: "LoggedInRider" , bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "Main") as! RiderMainViewController
+                vc.modalPresentationStyle = .fullScreen
+                LoginViewController().present(vc,animated: true, completion: nil)
                 //Go to rider story board
             }
             

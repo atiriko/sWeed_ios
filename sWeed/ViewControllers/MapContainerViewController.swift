@@ -24,7 +24,6 @@ class MapContainerViewController: UIViewController, CLLocationManagerDelegate, G
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        CheckIfHasInfo()
         CheckLocationServices()
         mapView.delegate = self
         
@@ -33,24 +32,28 @@ class MapContainerViewController: UIViewController, CLLocationManagerDelegate, G
         //Default location for Toronto
         ShowMap(location: CLLocationCoordinate2D.init(latitude: 43.6532 , longitude: -79.3832))
     }
+    
     func ShowMap(location: CLLocationCoordinate2D){
         
         let userMarker = GMSMarker()
         
         userMarker.position = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
         userMarker.map = mapView
+        
+        //CheckUserType()
+        
         CreateDispenserMapView(mapView: mapView)
-        
+//
         MakeMapStyled()
-        
-
-        
-        // if !(CheckIfDispenserInRange(firstCoordinate: CLLocation.init(latitude: location.latitude, longitude: location.longitude), secondCoordinate: CLLocation.init(latitude: marker.position.latitude, longitude: marker.position.longitude) )){
-        
-        
-        //}
-        
-        view = mapView
+//
+//
+//
+//        // if !(CheckIfDispenserInRange(firstCoordinate: CLLocation.init(latitude: location.latitude, longitude: location.longitude), secondCoordinate: CLLocation.init(latitude: marker.position.latitude, longitude: marker.position.longitude) )){
+//
+//
+//        //}
+//
+//        view = mapView
     }
     func MakeMapStyled(){
         do {
@@ -182,10 +185,6 @@ class MapContainerViewController: UIViewController, CLLocationManagerDelegate, G
         ShowMap(location: LocValue)
         
     }
-    func CheckIfHasInfo(){
-        
-    }
-    
     
 }
 

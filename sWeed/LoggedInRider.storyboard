@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Rider Main View Controller-->
+        <scene sceneID="OCa-Gl-iuK">
+            <objects>
+                <viewController storyboardIdentifier="Main" id="6cX-MQ-hBw" customClass="RiderMainViewController" customModule="sWeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Gb4-zv-hOI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="dyy-eN-CZk">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <connections>
+                                    <outlet property="delegate" destination="6cX-MQ-hBw" id="1p7-ez-Zcn"/>
+                                </connections>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jlM-ib-9dH">
+                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="QRW-co-5Dl"/>
+                                </constraints>
+                                <state key="normal" title="Go Online">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c4D-bC-Knf">
+                                <rect key="frame" x="16" y="35.5" width="45" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" backgroundImage="person.crop.circle" catalog="system"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="jlM-ib-9dH" firstAttribute="trailing" secondItem="1JX-2S-4Yp" secondAttribute="trailing" id="0fk-qQ-oJx"/>
+                            <constraint firstItem="dyy-eN-CZk" firstAttribute="trailing" secondItem="jlM-ib-9dH" secondAttribute="trailing" id="8xd-sH-bMK"/>
+                            <constraint firstItem="jlM-ib-9dH" firstAttribute="bottom" secondItem="1JX-2S-4Yp" secondAttribute="bottom" id="QWc-zh-86g"/>
+                            <constraint firstItem="dyy-eN-CZk" firstAttribute="bottom" secondItem="1JX-2S-4Yp" secondAttribute="bottom" id="Xb9-1G-w2c"/>
+                            <constraint firstItem="jlM-ib-9dH" firstAttribute="leading" secondItem="1JX-2S-4Yp" secondAttribute="leading" id="clk-pt-fwJ"/>
+                            <constraint firstItem="dyy-eN-CZk" firstAttribute="top" secondItem="1JX-2S-4Yp" secondAttribute="top" id="ml5-Ig-5Zy"/>
+                            <constraint firstItem="dyy-eN-CZk" firstAttribute="leading" secondItem="jlM-ib-9dH" secondAttribute="leading" id="mwy-9K-WUo"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="1JX-2S-4Yp"/>
+                    </view>
+                    <connections>
+                        <outlet property="MapView" destination="dyy-eN-CZk" id="re3-cj-o3X"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kbC-kb-O50" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="88.799999999999997" y="101.19940029985008"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="person.crop.circle" catalog="system" width="64" height="60"/>
+    </resources>
+</document>
