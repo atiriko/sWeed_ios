@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LoginViewController: UIViewController {
     
@@ -34,17 +35,55 @@ class LoginViewController: UIViewController {
     }
     
     func HandleLogin(){
-        if(PasswordText.text == "" || EmailText.text == ""){
-            System().HandleError(title: "Make sure you fill all the spaces", message: "", dismissbtn: "Try again", view: self)
-        }else{
-            LoadingIndicator.isHidden = false
-            LoadingIndicator.startAnimating()
-            Account().HandleLogin(email: System().Trim(Text: EmailText.text!), password: System().Trim(Text: PasswordText.text!)){ (result) in
-                self.LoadingIndicator.isHidden = true
-                self.LoadingIndicator.stopAnimating()
-                //System().ChangeViewFullScreen(storyboard: "LoggedInUser", viewName: "Map", view: self)
-                System().HandleError(title: result, message: "", dismissbtn: "Okey", view: self)
-            }
+       if(PasswordText.text == "" || EmailText.text == ""){
+                    System().HandleError(title: "Make sure you fill all the spaces", message: "", dismissbtn: "Try again", view: self)
+                }else{
+                    LoadingIndicator.isHidden = false
+                    LoadingIndicator.startAnimating()
+                    Auth.auth().signIn(withEmail: System().Trim(Text: EmailText.text!), password: System().Trim(Text: PasswordText.text!)){(user, error) in
+                        self.LoadingIndicator.isHidden = true
+                        self.LoadingIndicator.stopAnimating()
+                        if error == nil{
+                            print("logged in")
+                            
+                            database().CheckUserType(){(Type)in
+                            if(Type == 1){
+                                //Go to customer storyboad
+                                        System().ChangeViewFullScreen(storyboard: "LoggedInUser", viewName: "Map", view: self)
+
+                            }
+                            if(Type == 2){
+                                //Go to shop storyboard
+                                database().AddOrderInfoToOrderClass(DispenserID: Auth.auth().currentUser!.uid){(Orders)in
+                                
+                                    
+                                    let storyboard = UIStoryboard(name: "LoggedInShop" , bundle: nil)
+                                    let vc = storyboard.instantiateViewController(withIdentifier: "Main") as! ShopMainViewController
+                                    vc.orders = Orders
+                                    vc.DispenserId = Auth.auth().currentUser!.uid
+                                    vc.modalPresentationStyle = .fullScreen
+                                    self.present(vc,animated: true, completion: nil)
+                                }
+
+                            }
+                            if(Type == 3){
+                                let storyboard = UIStoryboard(name: "LoggedInRider" , bundle: nil)
+                                let vc = storyboard.instantiateViewController(withIdentifier: "Main") as! RiderMainViewController
+                                vc.modalPresentationStyle = .fullScreen
+                                self.present(vc,animated: true, completion: nil)
+                                //Go to rider story board
+                            }
+                            }
+                    }else{
+                            System().HandleError(title: error!.localizedDescription, message: "Please try again later", dismissbtn: "Okay", view: self)
+                        }
+                    }
+        //            Account().HandleLogin(email: System().Trim(Text: EmailText.text!), password: System().Trim(Text: PasswordText.text!)){ (result) in
+        //                self.LoadingIndicator.isHidden = true
+        //                self.LoadingIndicator.stopAnimating()
+        //                //System().ChangeViewFullScreen(storyboard: "LoggedInUser", viewName: "Map", view: self)
+        //                System().HandleError(title: result, message: "", dismissbtn: "Okey", view: self)
+        //            }
         }
         
         PasswordText.text = ""

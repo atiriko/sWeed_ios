@@ -23,6 +23,36 @@ public class database{
     var products = [Product]()
     let storageRef = Storage.storage().reference()
     
+    func CheckRiderStatus(Status: @escaping (String) -> Void){
+        if User_id != nil{
+           ref.child("Users").child(User_id).observeSingleEvent(of: .value, with: { snapshot in
+               var status: String!
+               
+               for user_child in (snapshot.children) {
+                   
+                   let user_snap = user_child as! DataSnapshot
+                   if user_snap.value is String{
+                       if user_snap.key == "status"{
+                           status = user_snap.value as? String
+                       }
+                   }
+               }
+               Status(status)
+               
+               
+               
+           })
+        }
+       }
+       func MakeRiderOnline(Location:String){
+           ref.child("Users").child(User_id).child("status").setValue("Online")
+           ref.child("OnlineRiders").child("Toronto").child("Available").child(User_id).child("Location").setValue(Location)
+           ref.child("OnlineRiders").child("Toronto").child("Available").child(User_id).child("WentOnlineAt").setValue(ServerValue.timestamp())
+       }
+       func MakeRiderOffline(){
+           ref.child("Users").child(User_id).child("status").setValue("Offline")
+           ref.child("OnlineRiders").child("Toronto").child("Available").child(User_id).removeValue()
+       }
     
     func DeleteProduct(ProductId:String, ImageUrl: String){
 //        print(User_id)
@@ -249,7 +279,7 @@ public class database{
     }
     
     func AddStockInfoToStockClass(DispenserID: String, Stocks: @escaping (Array<Stock>) -> Void){
-        ref.child("Dispensers").child(DispenserID).child("Stock").observeSingleEvent(of: .value, with: { snapshot in
+        ref.child("Dispensers").child("Toronto").child(DispenserID).child("Stock").observeSingleEvent(of: .value, with: { snapshot in
             var NameText: String!
             var PriceText: String!
             var ImageUrlText: String!
@@ -284,7 +314,7 @@ public class database{
         
     }
     func AddDispenserInfoToDispenserClass(Dispensers: @escaping (Array<Dispenser>) -> Void){
-        ref.child("Dispensers").observeSingleEvent(of: .value, with: { snapshot in
+        ref.child("Dispensers").child("Toronto").observeSingleEvent(of: .value, with: { snapshot in
             var NameText: String = ""
             var LocationText: String = ""
             var PasswordText: String = ""
@@ -343,32 +373,15 @@ public class database{
     
     
     func CreateDispenserWithInfo(name:String, location:String, passWord:String, id:String){
-        self.ref.child("Dispensers").child(id).child("Name").setValue(name)
-        self.ref.child("Dispensers").child(id).child("Location").setValue(location)
-        self.ref.child("Dispensers").child(id).child("Password").setValue(passWord)
-        self.ref.child("Dispensers").child(id).child("DispenserId").setValue(User_id)
+        self.ref.child("Dispensers").child("Toronto").child(id).child("Name").setValue(name)
+        self.ref.child("Dispensers").child("Toronto").child(id).child("Location").setValue(location)
+        self.ref.child("Dispensers").child("Toronto").child(id).child("Password").setValue(passWord)
+        self.ref.child("Dispensers").child("Toronto").child(id).child("DispenserId").setValue(User_id)
         
         
     }
-//    func CreateStockForDipenser(dispenserId: String, name: String, price: String){
-//        let itemId = System().RandomString(length: 8)
-//        var url:String = ""
-//
-//        uploadMedia(dispenserId: dispenserId, itemId: itemId){(completion) in
-//            url = completion!
-//
-//            let stockRef =  self.ref.child("Dispensers").child(dispenserId).child("Stock")
-//            stockRef.child(itemId).child("Name").setValue(name)
-//            stockRef.child(itemId).child("Price").setValue(price)
-//            stockRef.child(itemId).child("Available").setValue(true)
-//            stockRef.child(itemId).child("URL").setValue(url)
-//            stockRef.child(itemId).child("id").setValue(itemId)
-//        }
-//
-//
-//    }
     func EditStock(ItemId: String, Image: UIImage, Name: String, Price: String){
-        let stockRef =  self.ref.child("Dispensers").child(User_id).child("Stock").child(ItemId)
+        let stockRef =  self.ref.child("Dispensers").child("Toronto").child(User_id).child("Stock").child(ItemId)
         stockRef.removeValue()
         UploadProductImage(dispenserId: User_id, itemId: ItemId, Image: Image){(Completion)in
             stockRef.child("Name").setValue(Name)

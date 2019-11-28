@@ -31,12 +31,18 @@
                                 <state key="normal" title="Go Online">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="GoOnlineOflineBtn:" destination="6cX-MQ-hBw" eventType="touchUpInside" id="8zs-n1-ole"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c4D-bC-Knf">
                                 <rect key="frame" x="16" y="35.5" width="45" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" backgroundImage="person.crop.circle" catalog="system"/>
+                                <connections>
+                                    <action selector="ProfileBtn:" destination="6cX-MQ-hBw" eventType="touchUpInside" id="ze9-mS-NcK"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -45,13 +51,14 @@
                             <constraint firstItem="dyy-eN-CZk" firstAttribute="trailing" secondItem="jlM-ib-9dH" secondAttribute="trailing" id="8xd-sH-bMK"/>
                             <constraint firstItem="jlM-ib-9dH" firstAttribute="bottom" secondItem="1JX-2S-4Yp" secondAttribute="bottom" id="QWc-zh-86g"/>
                             <constraint firstItem="dyy-eN-CZk" firstAttribute="bottom" secondItem="1JX-2S-4Yp" secondAttribute="bottom" id="Xb9-1G-w2c"/>
+                            <constraint firstItem="dyy-eN-CZk" firstAttribute="top" secondItem="Gb4-zv-hOI" secondAttribute="top" id="at0-at-BzT"/>
                             <constraint firstItem="jlM-ib-9dH" firstAttribute="leading" secondItem="1JX-2S-4Yp" secondAttribute="leading" id="clk-pt-fwJ"/>
-                            <constraint firstItem="dyy-eN-CZk" firstAttribute="top" secondItem="1JX-2S-4Yp" secondAttribute="top" id="ml5-Ig-5Zy"/>
                             <constraint firstItem="dyy-eN-CZk" firstAttribute="leading" secondItem="jlM-ib-9dH" secondAttribute="leading" id="mwy-9K-WUo"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="1JX-2S-4Yp"/>
                     </view>
                     <connections>
+                        <outlet property="GoOnlineOfline" destination="jlM-ib-9dH" id="hYV-wn-VTg"/>
                         <outlet property="MapView" destination="dyy-eN-CZk" id="re3-cj-o3X"/>
                     </connections>
                 </viewController>
