@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 public class System: UIViewController{
     
@@ -45,6 +46,15 @@ public class System: UIViewController{
         let latArr = oldlat.components(separatedBy: ":")
         let longArr = oldlong.components(separatedBy: ":")
         return(Double(latArr[1])!, Double(longArr[1])!)
+    }
+    func StringTo2dCoordinate(String: String) -> CLLocationCoordinate2D{
+        let myString: String = String
+        let myStringArr = myString.components(separatedBy: " ")
+        let oldlat = myStringArr[0]
+        let oldlong = myStringArr[1]
+        let latArr = oldlat.components(separatedBy: ":")
+        let longArr = oldlong.components(separatedBy: ":")
+        return CLLocationCoordinate2D.init(latitude: Double(latArr[1])!, longitude: Double(longArr[1])!)
     }
     func Trim(Text: String) -> String{
         return Text.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)

@@ -23,6 +23,67 @@ public class database{
     var products = [Product]()
     let storageRef = Storage.storage().reference()
     
+    func GetDispenserLocation(DispenserId: String, DispenserLocation: @escaping (String) -> Void){
+        ref.child("Dispensers").child("Toronto").child(DispenserId).observeSingleEvent(of: .value, with: { snapshot in
+                  var location: String!
+                  
+                  for user_child in (snapshot.children) {
+                      
+                      let user_snap = user_child as! DataSnapshot
+                      if user_snap.value is String{
+                          if user_snap.key == "Location"{
+                              location = user_snap.value as? String
+                          }
+                      }
+                  }
+                  DispenserLocation(location)
+                  
+                  
+                  
+              })
+    }
+    func GetCustomerLocation(DispenserId: String, orderNumber: String, CustomerLocation: @escaping (String) -> Void){
+        GetCustomerIdFromOrderNumberAndDispenserId(DispenserId: DispenserId, orderNumber: orderNumber){(CustomerId)in
+            self.ref.child("Users").child(CustomerId).observeSingleEvent(of: .value, with: { snapshot in
+                  var location: String!
+                  
+                  for user_child in (snapshot.children) {
+                      
+                      let user_snap = user_child as! DataSnapshot
+                      if user_snap.value is String{
+                          if user_snap.key == "Location"{
+                              location = user_snap.value as? String
+                          }
+                      }
+                  }
+                  CustomerLocation(location)
+                  
+                  
+                  
+              })
+        }
+    }
+    func GetCustomerIdFromOrderNumberAndDispenserId(DispenserId:String, orderNumber:String, CustomerId: @escaping (String) -> Void){
+        ref.child("Orders").child(DispenserId).child(orderNumber).observeSingleEvent(of: .value, with: { snapshot in
+            var customerId: String!
+            
+            for user_child in (snapshot.children) {
+                
+                let user_snap = user_child as! DataSnapshot
+                if user_snap.value is String{
+                    if user_snap.key == "CustomerId"{
+                        customerId = user_snap.value as? String
+                    }
+                }
+            }
+            CustomerId(customerId)
+            
+            
+            
+        })
+    }
+    
+    
     func CheckRiderStatus(Status: @escaping (String) -> Void){
         if User_id != nil{
            ref.child("Users").child(User_id).observeSingleEvent(of: .value, with: { snapshot in
@@ -44,6 +105,11 @@ public class database{
            })
         }
        }
+    func TestIncomingOrder(){
+        ref.child("Users").child(User_id).child("order").child("OrderNumber").setValue("0633")
+        ref.child("Users").child(User_id).child("order").child("DispenserId").setValue("CM3sVERHSOOEfoHPCGSTnvz9NDH3")
+
+    }
        func MakeRiderOnline(Location:String){
            ref.child("Users").child(User_id).child("status").setValue("Online")
            ref.child("OnlineRiders").child("Toronto").child("Available").child(User_id).child("Location").setValue(Location)
@@ -124,6 +190,19 @@ public class database{
             
             
             
+        })
+    }
+    func CheckIfRiderGotOrder(Order: @escaping ([String]) -> Void){
+        ref.child("Users").child(User_id).child("order").observe(.value, with: {snapshot in
+            var order: [String] = []
+            
+            for orders_child in (snapshot.children){
+                let user_snap = orders_child as! DataSnapshot
+                order.append(user_snap.value as! String)
+
+            }
+            Order(order)
+
         })
     }
     func AddOrderInfoToOrderClass(DispenserID:String, Orders: @escaping(Array<Order>) -> Void) {

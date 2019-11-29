@@ -238,7 +238,7 @@
     "elementType": "labels",
     "stylers": [
       {
-        "color": "#010703"
+        "color": "#3b3b3b"
       },
       {
         "visibility": "on"
@@ -274,7 +274,7 @@
     "elementType": "geometry.stroke",
     "stylers": [
       {
-        "color": "#53d127"
+        "color": "#2fd057"
       },
       {
         "lightness": 30
@@ -310,7 +310,7 @@
     "elementType": "geometry.stroke",
     "stylers": [
       {
-        "color": "#3ad007"
+        "color": "#3b3b3b"
       }
     ]
   },

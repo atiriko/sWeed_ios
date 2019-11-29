@@ -1,100 +1,78 @@
 //
-//  RiderMainViewController.swift
+//  RiderAcceptOrderViewController.swift
 //  sWeed
 //
-//  Created by Atahan on 24/11/2019.
+//  Created by Atahan on 29/11/2019.
 //  Copyright © 2019 sWeed. All rights reserved.
 //
 
 import UIKit
 import MapKit
-import CoreLocation
-import FirebaseDatabase
-import FirebaseAuth
 
-class RiderMainViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate{
-    @IBOutlet weak var MapView: MKMapView!
+class RiderAcceptOrderViewController: UIViewController, SlideButtonDelegate,  CLLocationManagerDelegate, MKMapViewDelegate {
+    func buttonStatus(status: String, sender: MMSlidingButton) {
+        print("amcik \(status)")
+    }
     
-    @IBOutlet weak var GoOnlineOfline: UIButton!
-    @IBAction func GoOnlineOflineBtn(_ sender: Any) {
-        if GoOnlineOfline.titleLabel?.text == "Go Online"{
-            GoOnlineOfline.setTitle("Go Offline", for: .normal)
-            guard let location = locationManager.location?.coordinate else{
-                System().HandleError(title: "There was a problem with location services", message: "Please check your location", dismissbtn: "Okay", view: self)
-                // There was an error
-                return
-            }
-            
-            //self.GoOnlineOfline.titleLabel?.adjustsFontSizeToFitWidth = true
-            
-            database().MakeRiderOnline(Location: LocationAsString(Location: location))
-        }else{
-            GoOnlineOfline.setTitle("Go Online", for: .normal)
-            database().MakeRiderOffline()
-        }
-    }
-    @IBAction func ProfileBtn(_ sender: Any) {
-        database().TestIncomingOrder()
-       // Account().Logout()
-       // System().ChangeViewFullScreen(storyboard: "SignUp", viewName: "Main", view: self)
-    }
+
+    @IBOutlet weak var MapView: MKMapView!
+    @IBOutlet weak var OrderNumberText: UILabel!
+    @IBOutlet weak var AcceptBtn: MMSlidingButton!
     
     let locationManager = CLLocationManager()
-    // In meters
     let areaSeenInMap: Double = 1000
     var directionsArray: [MKDirections] = []
     let annotation = MKPointAnnotation()
+    var DispenserId: String!
+    var OrderNumber: String!
     
-    let ref = Database.database().reference()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        database().CheckRiderStatus(){(Status)in
-                   if Status == "Offline"{
-                       self.GoOnlineOfline.titleLabel?.text = "Go Online"
-                   }else{
-                       self.GoOnlineOfline.titleLabel?.text = "Go Offline"
-                   }
-               }
-        
         CheckLocationServices()
-        CreateIconForDispenser()
-
-        database().CheckIfRiderGotOrder(){(Order)in
-            if Order.count > 1{
-            let storyboard = UIStoryboard(name: "LoggedInRider" , bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "RiderAccept") as! RiderAcceptOrderViewController
-            vc.DispenserId = Order[0]
-                vc.OrderNumber = Order[1]
-            self.present(vc,animated: true, completion: nil)
-            }
-        }
-
+        //CreateIconForDispenser()
         
+                self.AcceptBtn.delegate = self
+
+        // Do any additional setup after loading the view.
     }
-    func GetDirectionsFromLocationToLocation(){
+
+    func ShowDirectionsFromDispenserToCustomer(){
         guard let location = locationManager.location?.coordinate else{
             System().HandleError(title: "There was a problem with location services", message: "Please check your location", dismissbtn: "Okay", view: self)
 
             // There was an error
             return
         }
-        let destination = CLLocationCoordinate2D.init(latitude: 43.653097, longitude: -79.399890)
         
-        let request = CreateDirectionRequest(from: location, to: destination)
-        let directions = MKDirections(request: request)
-        ResetMapView(withNew: directions)
-        
-        directions.calculate{ [unowned self] (response, error) in
-            
-            guard let response = response else {return}
-            
-            for route in response.routes{
-                self.MapView.addOverlay(route.polyline)
-                self.MapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+        database().GetDispenserLocation(DispenserId: DispenserId){(DispenserLocation)in
+            database().GetCustomerLocation(DispenserId: self.DispenserId, orderNumber: self.OrderNumber){(CustomerLocation)in
                 
+                let DispenserCoordinates = System().StringTo2dCoordinate(String: DispenserLocation)
+                let CustomerCoordinates = System().StringTo2dCoordinate(String: CustomerLocation)
+                
+                print(DispenserCoordinates)
+                print(CustomerCoordinates)
+                
+                self.CreateIconAtLocation(Location: DispenserCoordinates)
+               // self.CreateIconAtLocation(Location: CustomerCoordinates)
+
+                
+                let request = self.CreateDirectionRequest(from: DispenserCoordinates, to: CustomerCoordinates)
+                let directions = MKDirections(request: request)
+               // self.ResetMapView(withNew: directions)
+                
+                directions.calculate{ [unowned self] (response, error) in
+                    
+                    guard let response = response else {return}
+                    
+                    for route in response.routes{
+                        self.MapView.addOverlay(route.polyline)
+                        self.MapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+                        
+                    }
+                }
             }
         }
     }
@@ -112,6 +90,11 @@ class RiderMainViewController: UIViewController, CLLocationManagerDelegate, MKMa
     }
     func CreateIconForDispenser(){
         annotation.coordinate = CLLocationCoordinate2D(latitude: 43.653097, longitude: -79.399890)
+    
+        MapView.addAnnotation(annotation)
+    }
+    func CreateIconAtLocation(Location: CLLocationCoordinate2D){
+        annotation.coordinate = Location
     
         MapView.addAnnotation(annotation)
     }
@@ -142,7 +125,7 @@ class RiderMainViewController: UIViewController, CLLocationManagerDelegate, MKMa
         case .authorizedWhenInUse:
             MapView.showsUserLocation = true
             CenterViewOnUserLocation()
-            //GetDirectionsFromLocationToLocation()
+            ShowDirectionsFromDispenserToCustomer()
             locationManager.startUpdatingLocation()
         case .denied:
             break
@@ -153,7 +136,7 @@ class RiderMainViewController: UIViewController, CLLocationManagerDelegate, MKMa
         case .authorizedAlways:
             MapView.showsUserLocation = true
             CenterViewOnUserLocation()
-            //GetDirectionsFromLocationToLocation()
+            ShowDirectionsFromDispenserToCustomer()
             locationManager.startUpdatingLocation()
             break
         @unknown default:
@@ -187,7 +170,6 @@ class RiderMainViewController: UIViewController, CLLocationManagerDelegate, MKMa
     func LocationAsString(Location: CLLocationCoordinate2D) -> String{
         return "lat:\(Location.latitude) long:\(Location.longitude)"
     }
-    
     
 
     /*

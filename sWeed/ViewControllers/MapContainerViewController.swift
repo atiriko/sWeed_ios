@@ -53,7 +53,7 @@ class MapContainerViewController: UIViewController, CLLocationManagerDelegate, G
 //
 //        //}
 //
-//        view = mapView
+        view = mapView
     }
     func MakeMapStyled(){
         do {

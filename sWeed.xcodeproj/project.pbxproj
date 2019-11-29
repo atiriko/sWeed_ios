@@ -23,6 +23,8 @@
 		FB0D49CB2367A6650004A4AD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB0D49CA2367A6650004A4AD /* GoogleService-Info.plist */; };
 		FB0D49CC2367A6650004A4AD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB0D49CA2367A6650004A4AD /* GoogleService-Info.plist */; };
 		FB0D49CD2367A6650004A4AD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB0D49CA2367A6650004A4AD /* GoogleService-Info.plist */; };
+		FB2080022390971300BC51ED /* MMSlidingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2080012390971300BC51ED /* MMSlidingButton.swift */; };
+		FB208004239099AA00BC51ED /* RiderAcceptOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB208003239099AA00BC51ED /* RiderAcceptOrderViewController.swift */; };
 		FB566A28237A04E5009D2106 /* Basket.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB566A27237A04E5009D2106 /* Basket.swift */; };
 		FB63134D236C54E700C80F3D /* StockListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB63134C236C54E600C80F3D /* StockListViewCell.swift */; };
 		FB63135D236DE4E700C80F3D /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB63135C236DE4E700C80F3D /* Stock.swift */; };
@@ -113,6 +115,8 @@
 		FB0D49BC2367A5830004A4AD /* sWeedUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sWeedUITests.swift; sourceTree = "<group>"; };
 		FB0D49BE2367A5830004A4AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB0D49CA2367A6650004A4AD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FB2080012390971300BC51ED /* MMSlidingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MMSlidingButton.swift; sourceTree = "<group>"; };
+		FB208003239099AA00BC51ED /* RiderAcceptOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiderAcceptOrderViewController.swift; sourceTree = "<group>"; };
 		FB566A27237A04E5009D2106 /* Basket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Basket.swift; sourceTree = "<group>"; };
 		FB63134C236C54E600C80F3D /* StockListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockListViewCell.swift; sourceTree = "<group>"; };
 		FB63134E236C554B00C80F3D /* StockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockViewController.swift; sourceTree = "<group>"; };
@@ -336,6 +340,7 @@
 		FBDCEFA3237390FD0027AF23 /* LessUsed */ = {
 			isa = PBXGroup;
 			children = (
+				FB2080012390971300BC51ED /* MMSlidingButton.swift */,
 				FB63134C236C54E600C80F3D /* StockListViewCell.swift */,
 				FBB1567A236903FC003020F5 /* MapViewController.swift */,
 				FBAE4E932387453600C494F7 /* DispenserProductsTableViewCell.swift */,
@@ -347,6 +352,7 @@
 			isa = PBXGroup;
 			children = (
 				FBDE71D6238B3D9F003894EB /* RiderMainViewController.swift */,
+				FB208003239099AA00BC51ED /* RiderAcceptOrderViewController.swift */,
 			);
 			path = RiderViews;
 			sourceTree = "<group>";
@@ -657,6 +663,8 @@
 				FBAE4E942387453600C494F7 /* DispenserProductsTableViewCell.swift in Sources */,
 				FBB1567B236903FC003020F5 /* MapViewController.swift in Sources */,
 				FBAF35602380B7560092860C /* Product.swift in Sources */,
+				FB208004239099AA00BC51ED /* RiderAcceptOrderViewController.swift in Sources */,
+				FB2080022390971300BC51ED /* MMSlidingButton.swift in Sources */,
 				FB007393237EFC4300BE2AA7 /* AllOrdersTableViewCell.swift in Sources */,
 				FBAE4E962387458700C494F7 /* ShopProductsViewController.swift in Sources */,
 				FBC8CF952367B29A00250D4F /* SignUpViewController.swift in Sources */,
